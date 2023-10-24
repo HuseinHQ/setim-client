@@ -1,5 +1,5 @@
 <template>
-  <section class="bg-setim-background h-[100vh] w-[100vw] bg-no-repeat bg-cover">
+  <section class="bg-setim-background h-[85vh] w-full bg-no-repeat bg-cover">
     <div class="container mx-auto w-[30rem] pt-20">
       <h1 class="mb-8 font-extrabold text-2xl text-white">Sign In</h1>
       <form class="bg-dongker px-10 py-16 rounded">
@@ -23,9 +23,15 @@
       </form>
     </div>
   </section>
+  <SignFooter />
 </template>
 
 <script>
+  import SignFooter from '../components/SignFooter.vue'
+
+  export default {
+    components: { SignFooter }
+  }
 </script>
 
 <style>
