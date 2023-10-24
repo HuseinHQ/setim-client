@@ -2,17 +2,17 @@
   <section class="bg-setim-background h-[85vh] w-full bg-no-repeat bg-cover">
     <div class="container mx-auto w-[30rem] pt-20">
       <h1 class="mb-8 font-extrabold text-2xl text-white">Sign In</h1>
-      <form class="bg-dongker px-10 py-16 rounded">
+      <form @submit.prevent="submitHandler" class="bg-dongker px-10 py-16 rounded">
         <div class="mb-6">
-          <label for="email" class="block mb-2 text-sm font-medium text-blue">SIGN IN WITH EMAIL</label>
-          <input type="email" id="email"
-            class="bg-white border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-            placeholder="name@flowbite.com" required>
+          <label class="block mb-2 text-sm font-medium text-blue">SIGN IN WITH USERNAME</label>
+          <input type="text" v-model="username"
+            class="bg-white border border-gray-300 text-black text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            placeholder="Zense" required>
         </div>
         <div class="mb-6">
-          <label for="password" class="block mb-2 text-sm font-medium text-gray">PASSWORD</label>
-          <input type="password" id="password"
-            class="bg-white border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+          <label class="block mb-2 text-sm font-medium text-gray">PASSWORD</label>
+          <input type="password" v-model="password"
+            class="bg-white border border-gray-300 text-black text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             required>
         </div>
         <div class="flex justify-center">
@@ -27,11 +27,51 @@
 </template>
 
 <script>
-  import SignFooter from '../components/SignFooter.vue'
+import SignFooter from '../components/SignFooter.vue'
+import { mapActions } from 'pinia';
+import { useUserStore } from '../stores/user'
+import Swal from 'sweetalert2'
 
-  export default {
-    components: { SignFooter }
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
   }
+})
+
+export default {
+  components: { SignFooter },
+  data() {
+    return {
+      username: '',
+      password: ''
+    }
+  },
+  methods: {
+    ...mapActions(useUserStore, ['login']),
+    async submitHandler() {
+      const data = await this.login(this.username, this.password)
+      if (data.access_token) {
+        localStorage.access_token = data.access_token
+        this.$router.push('/')
+        Toast.fire({
+          icon: 'success',
+          title: 'Signed in successfully'
+        })
+      } else {
+        Toast.fire({
+          icon: 'error',
+          title: data.response.data.message
+        })
+      }
+    }
+  }
+}
 </script>
 
 <style>
