@@ -21,6 +21,23 @@ export const useUserStore = defineStore('user', {
         console.log(error)
         return error
       }
+    },
+
+    async register(email, username, password) {
+      try {
+        console.log({ email, username, password })
+        await axios({
+          method: 'post',
+          url: this.baseURL + '/register',
+          data: { email, username, password }
+        })
+
+        const data = await this.login(username, password)
+        return data
+      } catch (error) {
+        console.log(error)
+        return error
+      }
     }
   }
 })
