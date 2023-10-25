@@ -4,7 +4,9 @@ import axios from 'axios'
 export const useGameStore = defineStore('game', {
   state: () => ({
     baseURL: 'http://localhost:3000',
-    games: []
+    games: [],
+    game: {},
+    transactionToken: ''
   }),
   actions: {
     async fetchGames(page) {
@@ -19,7 +21,35 @@ export const useGameStore = defineStore('game', {
         })
 
         this.games = data
-        console.log(data)
+      } catch (error) {
+        console.log(error)
+      }
+    },
+
+    async fetchGameById(id) {
+      try {
+        const { data } = await axios({
+          method: 'get',
+          url: this.baseURL + '/games/' + id
+        })
+
+        this.game = data
+      } catch (error) {
+        console.log(error)
+      }
+    },
+
+    async generateMidTransToken() {
+      try {
+        const { data } = await axios({
+          method: 'get',
+          url: this.baseURL + '/generate-midtrans-token',
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+
+        this.transactionToken = data.transactionToken
       } catch (error) {
         console.log(error)
       }

@@ -9,16 +9,32 @@
       <RouterLink to="/" class="text-white hover:text-gray text-xl">LIBRARY</RouterLink>
       <RouterLink to="/" class="text-white hover:text-gray text-xl">ABOUT</RouterLink>
     </div>
-    <div class="">
-      <button class="bg-blue text-white">Login</button>
+    <div class="self-center ml-20">
+      <button @click="login" v-if="!isAuthenticated" class="bg-blue w-[5rem] text-white rounded py-1 hover:bg-darker-blue">Login</button>
+      <button @click="logout" v-if="isAuthenticated" class="bg-blue w-[5rem] text-white rounded py-1 hover:bg-darker-blue">Logout</button>
     </div>
   </nav>
 </template>
 
 <script>
 import { RouterLink } from 'vue-router';
+import { useUserStore } from '../stores/user';
+import { mapWritableState } from 'pinia';
 
 export default {
-  components: { RouterLink }
+  components: { RouterLink },
+  computed: {
+    ...mapWritableState(useUserStore, ['isAuthenticated'])
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem('access_token')
+      this.isAuthenticated = false;
+      this.$router.push('/login')
+    },
+    login() {
+      this.$router.push('/login')
+    }
+  }
 }
 </script>

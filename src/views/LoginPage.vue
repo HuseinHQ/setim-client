@@ -5,13 +5,13 @@
       <form @submit.prevent="submitHandler" class="bg-dongker px-10 py-16 rounded">
         <div class="mb-6">
           <label class="block mb-2 text-sm font-medium text-blue">SIGN IN WITH USERNAME</label>
-          <input type="text" v-model="username"
+          <input type="text" v-model="username" autocomplete="username"
             class="bg-white border border-gray-300 text-black text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             placeholder="Zense" required>
         </div>
         <div class="mb-6">
           <label class="block mb-2 text-sm font-medium text-gray">PASSWORD</label>
-          <input type="password" v-model="password"
+          <input type="password" v-model="password" autocomplete="current-password"
             class="bg-white border border-gray-300 text-black text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             required>
         </div>
