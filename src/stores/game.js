@@ -6,6 +6,7 @@ export const useGameStore = defineStore('game', {
     baseURL: 'http://localhost:3000',
     games: [],
     game: {},
+    libraries: [],
     transactionToken: ''
   }),
   actions: {
@@ -50,6 +51,22 @@ export const useGameStore = defineStore('game', {
         })
 
         this.transactionToken = data.transactionToken
+      } catch (error) {
+        console.log(error)
+      }
+    },
+
+    async fetchLibraries() {
+      try {
+        const { data } = await axios({
+          method: 'get',
+          url: this.baseURL + '/libraries',
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+
+        this.libraries = data
       } catch (error) {
         console.log(error)
       }
