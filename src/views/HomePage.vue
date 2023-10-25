@@ -1,5 +1,7 @@
 <template>
-  <GameCard v-for="game in games" :key="game.id" :game="game"/>
+  <div class="w-3/4 mx-auto grid grid-cols-3 gap-4 my-8">
+    <GameCard v-for="game in games" :key="game.id" :game="game"/>
+  </div>
 </template>
 
 <script>
@@ -15,9 +17,8 @@ export default {
   methods: {
     ...mapActions(useGameStore, ['fetchGames'])
   },
-  async created() {
-    await this.fetchGames(this.$route.query.page);
-    console.log(this.games)
+  created() {
+    this.fetchGames(this.$route.query.page);
   }
 }
 </script>

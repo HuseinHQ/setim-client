@@ -56,6 +56,21 @@ export const useGameStore = defineStore('game', {
       }
     },
 
+    async createLibrary(id) {
+      try {
+        await axios({
+          method: 'post',
+          url: this.baseURL + '/libraries',
+          data: { GameId: id },
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+      } catch (error) {
+        console.log(error)
+      }
+    },
+
     async fetchLibraries() {
       try {
         const { data } = await axios({
