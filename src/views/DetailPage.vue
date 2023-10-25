@@ -2,7 +2,7 @@
   <div id="main-content" class="container w-3/4 mx-auto">
     <div class="bg-blue h-8 rounded mt-10"></div>
     <div class="my-4">
-      <p class="text-sm text-gray mt-8">All Games > Action Games > {{ game[0].name }}</p>
+      <p class="text-sm text-gray mt-8">All Games > {{ game[0].genres[0].name }} Games > {{ game[0].name }}</p>
       <h1 class="text-3xl text-white font-extrabold mb-8">{{ game[0].name }}</h1>
       <div class="flex gap-3">
         <div class="w-7/12">
@@ -15,11 +15,6 @@
 
         <div class="w-5/12">
           <div class="bg-[#16161A] my-2 rounded h-[18rem] bg-cover" :style="{ 'background-image': `url('${game[0].screenshots[0].url}')` }">.</div>
-          <!-- <div class="bg-[#16161A] ">.</div> -->
-          <!-- <div class="bg-[#16161A] w-[17rem] rounded">.</div>
-          <div class="bg-[#16161A] w-[17rem] rounded">.</div>
-          <div class="bg-[#16161A] w-[17rem] rounded">.</div>
-          <div class="bg-[#16161A] w-[17rem] rounded">.</div> -->
         </div>
       </div>
     </div>
@@ -35,13 +30,16 @@ export default {
     ...mapState(useGameStore, ['game', 'transactionToken'])
   },
   methods: {
-    ...mapActions(useGameStore, ['fetchGameById', 'generateMidTransToken']),
+    ...mapActions(useGameStore, ['fetchGameById', 'generateMidTransToken', 'createLibrary']),
     async clickHandler() {
       await this.generateMidTransToken();
-      console.log(this.transactionToken);
+
+      const GameId = this.$route.params.id
+      const cb = this.createLibrary
       window.snap.pay(this.transactionToken, {
-        onSuccess: function (result) {
-          alert("payment success!"); console.log(result);
+        onSuccess: async function () {
+          const apa = await cb(GameId)
+          console.log(apa)
         },
       })
     }
