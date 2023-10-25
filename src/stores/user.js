@@ -3,7 +3,8 @@ import axios from 'axios'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    baseURL: 'http://localhost:3000',
+    // baseURL: 'http://localhost:3000',
+    baseURL: 'https://setim-server.huseinhk.me',
     isAuthenticated: localStorage.access_token ? true : false
   }),
   actions: {

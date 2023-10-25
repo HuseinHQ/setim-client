@@ -3,7 +3,8 @@ import axios from 'axios'
 
 export const useGameStore = defineStore('game', {
   state: () => ({
-    baseURL: 'http://localhost:3000',
+    // baseURL: 'http://localhost:3000',
+    baseURL: 'https://setim-server.huseinhk.me',
     games: [],
     game: {},
     libraries: [],
