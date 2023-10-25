@@ -64,6 +64,7 @@ export default {
           title: 'Signed in successfully'
         })
       } else {
+        console.log(data.response)
         Toast.fire({
           icon: 'error',
           title: data.response.data.message
