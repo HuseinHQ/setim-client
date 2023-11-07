@@ -33,3 +33,6 @@ npm run build
 ```sh
 npm run lint
 ```
+
+### Deployed Link:
+https://setim-client.web.app/
